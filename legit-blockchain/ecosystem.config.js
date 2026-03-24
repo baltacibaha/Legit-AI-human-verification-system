@@ -1,0 +1,55 @@
+'use strict';
+
+module.exports = {
+  apps: [
+    {
+      name:        'legit-blockchain',
+      script:      'index.js',
+      cwd:         '/opt/legit/blockchain',
+      instances:   1,
+      exec_mode:   'fork',
+      node_args:   '--max-old-space-size=512',
+      interpreter: 'node',
+      autorestart:        true,
+      watch:              false,
+      max_restarts:       10,
+      min_uptime:         '15s',
+      restart_delay:      5000,
+      max_memory_restart: '420M',
+      out_file:           '/var/log/legit/blockchain-out.log',
+      error_file:         '/var/log/legit/blockchain-err.log',
+      log_date_format:    'YYYY-MM-DDTHH:mm:ss.SSSZ',
+      merge_logs:         true,
+      log_type:           'json',
+      kill_timeout:       65000,
+      listen_timeout:     12000,
+      shutdown_with_message: false,
+
+      env_production: {
+        NODE_ENV:             'production',
+        PORT:                 '3001',
+        LOG_LEVEL:            'info',
+        EAS_NETWORK:          'mainnet',
+        POLL_INTERVAL_MS:     '5000',
+        MAX_CONCURRENT_JOBS:  '3',
+        MAX_RETRY_ATTEMPTS:   '7',
+        BACKOFF_BASE_MS:      '2000',
+        BACKOFF_MAX_MS:       '300000',
+        GAS_PRICE_LIMIT_GWEI: '50',
+      },
+
+      env_staging: {
+        NODE_ENV:             'staging',
+        PORT:                 '3001',
+        LOG_LEVEL:            'debug',
+        EAS_NETWORK:          'sepolia',
+        POLL_INTERVAL_MS:     '8000',
+        MAX_CONCURRENT_JOBS:  '2',
+        MAX_RETRY_ATTEMPTS:   '5',
+        BACKOFF_BASE_MS:      '3000',
+        BACKOFF_MAX_MS:       '120000',
+        GAS_PRICE_LIMIT_GWEI: '100',
+      },
+    },
+  ],
+};
